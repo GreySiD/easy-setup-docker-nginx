@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  registry:
+    restart: always
+    container_name: registry
+    image: registry:2
+    volumes:
+      - ./hub:/var/lib/registry
+    networks:
+      skypro_vps_network:
+
+networks:
+  skypro_vps_network:
+    name: skypro_vps_network        

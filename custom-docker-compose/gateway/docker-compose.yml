@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  gateway-nginx:
+    container_name: gateway-nginx
+    image: nginx:1.21.6-alpine
+    restart: unless-stopped
+    networks:
+      skypro_vps_network:
+    volumes:
+      - ./data/conf.d:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443
+
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    restart: unless-stopped
+    networks:
+      skypro_vps_network:
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - gateway-nginx
+
+networks:
+  skypro_vps_network:
+    name: skypro_vps_network
