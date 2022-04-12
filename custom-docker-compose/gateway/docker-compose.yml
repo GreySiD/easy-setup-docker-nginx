@@ -5,8 +5,6 @@ services:
     container_name: gateway-nginx
     image: nginx:1.21.6-alpine
     restart: unless-stopped
-    networks:
-      skypro_vps_network:
     volumes:
       - ./data/conf.d:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
@@ -19,8 +17,6 @@ services:
     container_name: certbot
     image: certbot/certbot
     restart: unless-stopped
-    networks:
-      skypro_vps_network:
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
@@ -28,5 +24,6 @@ services:
       - gateway-nginx
 
 networks:
-  skypro_vps_network:
-    name: skypro_vps_network
+  default:
+    external:
+      name: ${NETWORK_NAME}

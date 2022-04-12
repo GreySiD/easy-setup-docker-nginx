@@ -7,9 +7,8 @@ services:
     image: registry:2
     volumes:
       - ./hub:/var/lib/registry
-    networks:
-      skypro_vps_network:
 
 networks:
-  skypro_vps_network:
-    name: skypro_vps_network        
+  default:
+    external:
+      name: ${NETWORK_NAME}
